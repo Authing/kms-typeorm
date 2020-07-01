@@ -1,34 +1,30 @@
 import { UserEntity } from "./entity/user"
 import { createConnection } from "typeorm"
+import assert from "assert"
 
-const test1 = async () => {
+const testInsertLoad = async () => {
+  const age = 22
+  const firstName = "ethereal"
+  const lastName = "liao"
+  const password = "123456"
+
   let user = new UserEntity()
-  user.age = 21
-  user.firstName = "廖"
-  user.lastName = "长江"
-  user.passwod = "123456"
-  await user.save() // AfterInsert
-
-  user.age = 22 // AfterLoad
-  await user.save() // BeforeUpdate -> AfterUpdate
-  await user.remove()
-}
-
-const test2 = async () => {
-  let user = new UserEntity()
-  user.age = 21
-  user.firstName = "廖"
-  user.lastName = "长江"
-  user.passwod = "123456"
-  await user.save() // AfterInsert
+  user.age = age
+  user.firstName = firstName
+  user.lastName = lastName
+  user.passwod = password
+  await user.save()
 
   let newUser = await UserEntity.findOne(user.id)
-  console.log(newUser)
+  assert((newUser.age = age))
+  assert(newUser.firstName === firstName)
+  assert(newUser.lastName === lastName)
+  assert(newUser.passwod === password)
 }
 
 createConnection()
   .then(async (connection) => {
     // await test1()
-    await test2()
+    await testInsertLoad()
   })
   .catch(console.error)
