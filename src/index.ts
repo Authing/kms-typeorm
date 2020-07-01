@@ -20,11 +20,21 @@ const testInsertLoad = async () => {
   assert(newUser.firstName === firstName)
   assert(newUser.lastName === lastName)
   assert(newUser.passwod === password)
+
+  return newUser
+}
+
+const testUpdate = async (user: UserEntity) => {
+  const newPassword = "123456!"
+  user.passwod = newPassword
+  user = await user.save()
+  assert(user.passwod === newPassword)
 }
 
 createConnection()
   .then(async (connection) => {
-    // await test1()
-    await testInsertLoad()
+    const user = await testInsertLoad()
+    await testUpdate(user)
+    console.info('All Test Cases Passed!')
   })
   .catch(console.error)

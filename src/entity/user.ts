@@ -13,6 +13,26 @@ import {
 } from "typeorm"
 import { kmsEncrypt, kmsDecrypt } from "../kms"
 
+export const kmsEncryptObject = async (obj: any) => {
+  let tasks = Object.keys(obj).map(async (key) => {
+    if (typeof obj[key] === "string") {
+      const { result, messageHeader } = await kmsEncrypt(obj[key])
+      obj[key] = result.toString("base64")
+    }
+  })
+  await Promise.all(tasks)
+}
+
+export const kmsDecryptObject = async (obj: any) => {
+  let tasks = Object.keys(obj).map(async (key) => {
+    if (typeof obj[key] === "string") {
+      const { plaintext, messageHeader } = await kmsDecrypt(obj[key])
+      obj[key] = plaintext.toString()
+    }
+  })
+  await Promise.all(tasks)
+}
+
 @Entity("users")
 export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -30,45 +50,29 @@ export class UserEntity extends BaseEntity {
   @Column()
   passwod: string
 
+  // https://typeorm.io/#/listeners-and-subscribers
   @AfterLoad()
   async afterLoad() {
-    let tasks = Object.keys(this).map(async (key) => {
-      if (typeof this[key] === "string") {
-        const { plaintext, messageHeader } = await kmsDecrypt(this[key])
-        this[key] = plaintext.toString()
-      }
-    })
-    await Promise.all(tasks)
-    console.log("AfterLoad: ", this)
+    await kmsDecryptObject(this)
   }
 
-  // https://typeorm.io/#/listeners-and-subscribers
   @BeforeInsert()
   async beforeInsert() {
-    console.log("BeforeInsert: ", this)
-
-    let tasks = Object.keys(this).map(async (key) => {
-      if (typeof this[key] === "string") {
-        const { result, messageHeader } = await kmsEncrypt(this[key])
-        this[key] = result.toString("base64")
-      }
-    })
-    await Promise.all(tasks)
+    await kmsEncryptObject(this)
   }
 
   @AfterInsert()
   afterInsert() {
-    console.log("AfterInsert: ", this)
   }
 
   @BeforeUpdate()
-  beforeUpdate() {
-    console.log("BeforeUpdate: ", this)
+  async beforeUpdate() {
+    await kmsEncryptObject(this)
   }
 
   @AfterUpdate()
-  afterUpdate() {
-    console.log("AfterUpdate: ", this)
+  async afterUpdate() {
+    await kmsDecryptObject(this)
   }
 
   @BeforeRemove()
