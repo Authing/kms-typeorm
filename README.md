@@ -1,6 +1,6 @@
 # KMS Plugin for TypeORM
 
-有关如何本地开发的引导请见：[](./Developement.md)
+有关如何本地开发的引导请见：[Developement.md](./Developement.md)
 
 ## Why ?
 
