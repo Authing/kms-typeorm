@@ -4,6 +4,41 @@
 
 ## API (Draft)
 
+- 设置 KMS Provider
+
+```typescript
+import { KMSTypeORM } from "kms-typeorm"
+
+KMSTypeORM.initProvider('AWS', {
+	region: "",
+	credentials: {
+		accessKeyId: "",
+		secretAccessKey: ""
+	}
+})
+```
+
+- 注册 Entity
+
+```typescript
+import { KMSTypeORM } from "kms-typeorm"
+
+// 指定目录文件
+KMSTypeORM.register({
+	path: "src/entity/**/*.entity.ts"
+})
+
+// 指定特定的 Entity
+KMSTypeORM.register({
+	entities: [
+		UserEntity,
+		TransactionEntity
+	]
+})
+```
+
+- 指定哪些字段需要加密
+
 ```typescript
 import { KMSEncryptFields } from "kms-typeorm"
 
