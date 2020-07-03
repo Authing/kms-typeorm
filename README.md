@@ -8,53 +8,13 @@ KMS 全称为 Key Management Service, 中文直译过来为密钥管理服务。
 
 此开源项目旨在将 KMS 与 Node.JS 中使用最广泛的 ORM 结合起来，让 KMS 的使用成本变得更低，做到简单的配置即可开箱即用。
 
-
-## API (Draft)
-
-- 设置 KMS Provider
+## Usage
 
 ```typescript
-import { KMSTypeORM } from "kms-typeorm"
-
-KMSTypeORM.initProvider('AWS', {
-	region: "",
-	credentials: {
-		accessKeyId: "",
-		secretAccessKey: ""
-	}
-})
-```
-
-- 注册 Entity
-
-```typescript
-import { KMSTypeORM } from "kms-typeorm"
-
-// 指定目录文件
-KMSTypeORM.register({
-	path: "src/entity/**/*.entity.ts"
-})
-
-// 指定特定的 Entity
-KMSTypeORM.register({
-	entities: [
-		UserEntity,
-		TransactionEntity
-	]
-})
-```
-
-- 指定哪些字段需要加密
-
-```typescript
-import { KMSEncryptFields } from "kms-typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, createConnection } from 'typeorm'
+import { KMSEncryptedColumn, KMSSubscriber } from "kms-typeorm"
 
 @Entity("users")
-@KMSEncryptFields(['__all__']) // 加密全部字段（除了 ID）
-@KMSEncryptFields(['firstName', 'lastName', 'password']) // 指定需要加密的字段列表
-@KMSEncryptFields({
-	excludes: ['age'], // 指定不需要加密的字段列表
-})
 export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
@@ -68,9 +28,18 @@ export class UserEntity extends BaseEntity {
   @Column()
   age: number
 
-  @Column()
+  @KMSEncryptedColumn()
   passwod: string
+
+  @KMSEncryptedColumn()
+  phone: string
 }
+
+let connection = createConnection({
+  ...
+  entities: [UserEntity],
+  subscribers: [KMSSubscriber]
+})
 ```
 
 ## 规划
@@ -88,7 +57,9 @@ export class UserEntity extends BaseEntity {
 2. MySQL
 3. MongoDB
 
-## 相关阅读 
+同时会做好性能测试，尽量减少由于 KMS 带来的性能损失。
+
+## 相关阅读
+
 - [AWS KMS 科普: What Why and How?](https://mp.weixin.qq.com/s/71MDGwJXXBQRJ5kzCGnoTQ)
 - [被脱库咋办？KMS 给你解决方案！](https://mp.weixin.qq.com/s/-N1zScH47U7LQE8F95Ad1w)
-
