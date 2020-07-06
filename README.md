@@ -46,16 +46,16 @@ let connection = createConnection({
 
 我们会支持目前市场上使用最广泛的 4 家 KMS 服务商：
 
-1. [AWS KMS](https://aws.amazon.com/kms/)
-2. [阿里云 KMS](https://www.aliyun.com/product/kms)
-3. [腾讯云 KMS](https://cloud.tencent.com/product/kms)
-4. [Google Cloud KMS](https://cloud.google.com/kms)
+- [x] [AWS KMS](https://aws.amazon.com/kms/)
+- [ ] [阿里云 KMS](https://www.aliyun.com/product/kms)
+- [ ] [腾讯云 KMS](https://cloud.tencent.com/product/kms)
+- [ ] [Google Cloud KMS](https://cloud.google.com/kms)
 
-同时会支持以下三种主流数据库：
+同时会对以下三种主流数据库做好兼容性测试：
 
-1. PostgreSQL
-2. MySQL
-3. MongoDB
+- [x] PostgreSQL
+- [ ] MySQL
+- [ ] MongoDB
 
 同时会做好性能测试，尽量减少由于 KMS 带来的性能损失。
 
