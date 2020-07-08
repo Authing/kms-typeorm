@@ -4,9 +4,9 @@
 
 ## Why ?
 
-KMS 全称为 Key Management Service, 中文直译过来为密钥管理服务。KMS 可以在技术层上完全确保数据的安全性。[Authing](https://authing.cn) 作为一款托管了众多开发者用户核心数据的产品，数据安全至关重要，我们一直在实践使用 KMS 来保证用户数据的安全性。
+KMS 全称为 Key Management Service, 中文直译过来为密钥管理服务。KMS 通过信封加密等复杂的密码学原理，在技术层完全确保数据的安全性。[Authing](https://authing.cn) 托管了众多开发者的核心用户数据，数据安全尤为重要要。所以我们一直在实践使用 KMS 来保护开发者的用户数据安全。
 
-此开源项目旨在将 KMS 与 Node.JS 中使用最广泛的 ORM 结合起来，让 KMS 的使用成本变得更低，做到简单的配置即可开箱即用。
+此开源项目旨在将 KMS 与 TypeORM 结合起来，通过简单的几行配置，即可完成全量的数据库 KMS 加密。
 
 ## Usage
 
@@ -57,7 +57,7 @@ let connection = createConnection({
 - [ ] MySQL
 - [ ] MongoDB
 
-同时会做好性能测试，尽量减少由于 KMS 带来的性能损失。
+同时会做好性能测试，尽量减少由 KMS 带来的性能损失。
 
 ## 相关阅读
 
