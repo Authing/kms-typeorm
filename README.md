@@ -47,7 +47,7 @@ let connection = createConnection({
 我们会支持目前市场上使用最广泛的 4 家 KMS 服务商：
 
 - [x] [AWS KMS](https://aws.amazon.com/kms/)
-- [ ] [阿里云 KMS](https://www.aliyun.com/product/kms)
+- [x] [阿里云 KMS](https://www.aliyun.com/product/kms)
 - [ ] [腾讯云 KMS](https://cloud.tencent.com/product/kms)
 - [ ] [Google Cloud KMS](https://cloud.google.com/kms)
 

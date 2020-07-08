@@ -6,6 +6,7 @@
   "dependencies": {
     "@aws-crypto/client-node": "^1.0.5",
     "aws-sdk": "^2.707.0",
+    "axios": "^0.19.2",
     "pg": "^8.2.1",
     "typeorm": "^0.2.25",
     "yaml": "^1.10.0"

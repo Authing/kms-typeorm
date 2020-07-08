@@ -1,6 +1,28 @@
 import { getMetadataArgsStorage, ObjectLiteral } from "typeorm"
 import { EncryptedColumnOptions } from "../decorators"
-import { kmsEncrypt, kmsDecrypt } from "./aws"
+import * as awsKms from "./aws"
+import * as aliyunKms from "./aliyun"
+import { config, KMSProvider } from "../config/index"
+
+const provider = config.kms.type
+
+const kmsEncrypt = async (text: string) => {
+  if (provider === KMSProvider.aws) {
+    return await awsKms.kmsEncrypt(text)
+  } else if (provider === KMSProvider.aliyun) {
+    return await aliyunKms.kmsEncrypt(text)
+  }
+  return text
+}
+
+const kmsDecrypt = async (encrypted: string) => {
+  if (provider === KMSProvider.aws) {
+    return await awsKms.kmsDecrypt(encrypted)
+  } else if (provider === KMSProvider.aliyun) {
+    return await aliyunKms.kmsDecrypt(encrypted)
+  }
+  return encrypted
+}
 
 /**
  * For all columns that have encryption options run the supplied function.

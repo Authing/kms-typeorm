@@ -29,7 +29,7 @@ const testInsertLoad = async () => {
 }
 
 const testUpdate = async (user: UserEntity) => {
-  const newPassword = "123456!"
+  const newPassword = "1234567"
   user.passwod = newPassword
   user = await user.save()
   assert(user.passwod === newPassword)

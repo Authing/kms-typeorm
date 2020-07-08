@@ -1,5 +1,12 @@
 kms:
+  type: # kms 服务商
   aws:
     region: 
     accessKeyId: 
     secretAccessKey: 
+    keyId:
+  aliyun:
+    region:
+    accessKeyId:
+    accessKeySecret:
+    keyId:
